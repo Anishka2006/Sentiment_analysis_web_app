@@ -1,4 +1,8 @@
 import streamlit as st
+st.set_page_config(page_title="AI Sentiment Analyzer", page_icon="🧠")
+
+st.title("🧠 AI Sentiment Analysis Web App")
+st.write("Analyze emotions and sentiment from any text instantly.")
 import nltk
 import matplotlib.pyplot as plt
 from nltk.sentiment import SentimentIntensityAnalyzer
@@ -68,19 +72,24 @@ st.subheader("Analyze Sentiment of Text or News Articles")
 option = st.sidebar.radio("Choose Analysis Type:", ["Analyzing Text", "Analyzing News Article"])
 
 if option == "Analyzing Text":
-    user_input = st.text_area("Enter text for sentiment analysis:")
+   user_input = st.text_area("✍️ Enter text for sentiment analysis:", height=200)
     if st.button("Analyze"):
         if user_input.strip():
             score, sentiment = analyze_sentiment(user_input)
             st.success(f"**Sentiment Score:** {score:.2f}")
             st.info(f"**Overall Sentiment:** {sentiment}")
-            plot_sentiment(score)
+            if sentiment == "Positive":
+    st.success("😊 Positive Sentiment Detected")
+    st.balloons()
+
+elif sentiment == "Negative":
+    st.error("😠 Negative Sentiment Detected")
+
+else:
+    st.info("😐 Neutral Sentiment Detected")
+         plot_sentiment(score)
         else:
             st.warning("Please enter some text!")
-
-
-
-
 elif option == "Analyzing News Article":
     url = st.text_input("Enter News Article URL:")
     if st.button("Analyze"):
@@ -96,7 +105,10 @@ elif option == "Analyzing News Article":
 
             score, sentiment = analyze_sentiment(text)
             st.success(f"**Sentiment Score:** {score:.2f}")
+    
             st.info(f"**Overall Sentiment:** {sentiment}")
             plot_sentiment(score)
         else:
             st.warning("Please enter a valid URL!")
+            st.markdown("---")
+st.caption("Built with ❤️ using Streamlit and Python")
